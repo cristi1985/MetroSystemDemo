@@ -10,4 +10,8 @@
     <PackageReference Include="MassTransit" Version="8.0.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Shared.Timeline.Events\Shared.Timeline.csproj" />
+  </ItemGroup>
+
 </Project>
