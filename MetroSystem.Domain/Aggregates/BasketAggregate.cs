@@ -1,5 +1,4 @@
 ﻿using MetroSystem.Domain.Events;
-using Shared.Timeline.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;

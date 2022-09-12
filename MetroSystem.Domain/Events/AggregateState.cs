@@ -1,11 +1,11 @@
-﻿using Shared.Timeline.Exceptions;
+﻿using MetroSystem.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.Timeline.Events
+namespace MetroSystem.Domain.Events
 {
     public abstract class AggregateState
     {

@@ -1,10 +1,9 @@
-﻿using System;
+﻿using MetroSystem.Domain.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Shared.Timeline.Events
+namespace MetroSystem.Domain.Events
 {
     public abstract class AggregateRoot<TState> where TState : AggregateState
     {
@@ -69,7 +68,7 @@ namespace Shared.Timeline.Events
                     i++;
 
                     change.AggregateVersion = AggregateVersion + i;
-                    change.EventTime = DateTime.Now.ToEpoch();
+                    change.EventTime = DateTime.Now.ToFileTimeUtc();
                 }
 
                 AggregateVersion += changes.Length;

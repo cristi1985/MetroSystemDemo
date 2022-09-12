@@ -1,5 +1,8 @@
 ﻿using MassTransit;
+using MetroSystem.Domain.Aggregates;
 using MetroSystem.Domain.Commands;
+using MetroSystem.Domain.Consumers;
+using MetroSystem.Domain.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +32,9 @@ namespace MetroSystem.API
             services.AddMediator(x =>
             {
                 x.AddRequestClient<CreateBasketCommand>();
+                x.AddConsumer<CreateBasketCommandConsumer>();
             });
+           // services.AddSingleton<IEventRepository<BasketAggregate, BasketAggregateState>, 
         }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

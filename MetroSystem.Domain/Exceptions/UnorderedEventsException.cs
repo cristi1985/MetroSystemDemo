@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.Timeline.Exceptions
+namespace MetroSystem.Domain.Exceptions
 {
     [Serializable]
     internal class UnorderedEventsException:Exception

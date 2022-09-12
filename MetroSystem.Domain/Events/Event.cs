@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.Timeline.Events
+namespace MetroSystem.Domain.Events
 {
     public class Event : IEvent
     {

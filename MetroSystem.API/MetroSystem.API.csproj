@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MetroSystem.Domain\MetroSystem.Domain.csproj" />
-    <ProjectReference Include="..\Shared.Models\Shared.Models.csproj" />
+    <ProjectReference Include="..\MetroSystem.Infrastructure\MetroSystem.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
