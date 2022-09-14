@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MetroSystem.Domain.Exceptions
 {
     [Serializable]
-    internal class UnorderedEventsException:Exception
+    public class UnorderedEventsException:Exception
     {
         public UnorderedEventsException(Guid aggregate)
            : base($"The events for this aggregate are not in the expected order ({aggregate}).")

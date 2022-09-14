@@ -18,9 +18,9 @@ namespace MetroSystem.API.Base
             Mediator = mediator;
         }
 
-        protected async Task<ActionResult> GetCommandResultResponse(object query)
+        protected async Task<ActionResult> GetCommandResultResponse<T>(T query) where T: class
         {
-            var client = Mediator.CreateRequestClient<object>();
+            var client = Mediator.CreateRequestClient<T>();
             var response = await client.GetResponse<CommandResult>(query).ConfigureAwait(false);
             return response.Message?.IsSuccessful == true
                    ? new OkObjectResult(response.Message) : new BadRequestObjectResult(response.Message);

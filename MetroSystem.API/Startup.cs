@@ -1,8 +1,12 @@
 ﻿using MassTransit;
+using MetroSystem.API.Queries.Repositories;
+using MetroSystem.API.Stores;
 using MetroSystem.Domain.Aggregates;
 using MetroSystem.Domain.Commands;
 using MetroSystem.Domain.Consumers;
 using MetroSystem.Domain.Events;
+using MetroSystem.Infrastructure.Context;
+using MetroSystem.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,10 +35,18 @@ namespace MetroSystem.API
             });
             services.AddMediator(x =>
             {
+                
                 x.AddRequestClient<CreateBasketCommand>();
                 x.AddConsumer<CreateBasketCommandConsumer>();
             });
-           // services.AddSingleton<IEventRepository<BasketAggregate, BasketAggregateState>, 
+            services.AddSingleton<DapperContext>();
+            
+            services.AddSingleton<IEventRepository<BasketAggregate, BasketAggregateState>, BasketEventRepository>();
+            services.AddSingleton<IAggregateFactory<BasketAggregate, BasketAggregateState>, BasketAggregateFactory>();
+            services.AddSingleton<IBasketEventStore, BasketEventStore>();
+            services.AddSingleton<IBasketEventRepository, BasketEventRepository>();
+            services.AddSingleton<IBasketRepository, BasketRepository>();
+            services.AddSingleton<IBasketAggregateFactory, BasketAggregateFactory>();
         }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
