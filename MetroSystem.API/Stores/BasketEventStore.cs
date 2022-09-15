@@ -10,6 +10,7 @@ using System.Data;
 using System.Threading.Tasks;
 
 using System.Threading.Tasks;
+using MetroSystem.Domain.Models;
 
 namespace MetroSystem.API.Stores
 { 
@@ -39,7 +40,7 @@ namespace MetroSystem.API.Stores
             connection.Open();
 
             var query =
-                "SELECT 1 FROM Basket WHERE BasketId = :aggregateIdentifier";
+                "SELECT 1 FROM Basket WHERE BasketId = @aggregateIdentifier";
             connection.BeginTransaction();
             return (await connection.QueryAsync(query, new { aggregateIdentifier = aggregateIdentifier })).Any();
         }
@@ -64,9 +65,89 @@ namespace MetroSystem.API.Stores
             throw new NotImplementedException();
         }
 
-        public Task Save(BasketAggregate aggregate, IEnumerable<IEvent> events)
+        public async Task Save(BasketAggregate aggregate, IEnumerable<IEvent> events)
         {
-            throw new NotImplementedException();
+            var list = new List<SerializedEvent>();
+
+            foreach (var e in events)
+            {
+                var item = e.Serialize(Serializer, aggregate.AggregateIdentifier, e.AggregateVersion);
+                list.Add(item);
+            }
+
+            var insertEventStatement = @"INSERT INTO [dbo].[BasketEvents] 
+                (
+                    [AggregateIdentifier],
+                    [AggregateVersion],
+                    [EventTime],
+                    [EventType],
+                    [EventData]
+                )
+                VALUES (
+                    @aggregateIdentifier,
+                    @aggregateVersion,
+                    @EventTime,
+                    @EventType,
+                    @EventData)";
+
+            using var connection = _context.CreateConnection();
+            connection.Open();
+            using var transaction = connection.BeginTransaction();
+            await EnsureAggregateExists(connection, transaction, aggregate);
+
+            try
+            {
+                foreach (var @event in list)
+                {
+                    await connection.ExecuteAsync(insertEventStatement, new
+                    {
+                        @event.AggregateIdentifier,
+                        @event.AggregateVersion,
+                        @event.EventTime,
+                        @event.EventType,
+                        @event.EventData,
+                    }, transaction);
+
+                }
+
+                transaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                Console.WriteLine(ex);
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
+
+        private async Task EnsureAggregateExists(IDbConnection connection, IDbTransaction transaction,  BasketAggregate aggregate)
+        {
+            var existsQuery =
+                "SELECT 1 FROM BasketAggregates WHERE AGGREGATEIDENTIFIER = @aggregateIdentifier";
+
+            var envoiceAggregates = await connection.QueryAsync(existsQuery, new { aggregateIdentifier = aggregate.AggregateIdentifier }, transaction);
+            if (envoiceAggregates.Any()) return;
+
+            var insertStatement = @"
+                INSERT INTO [dbo].[BasketAggregates] (
+                    [AGGREGATEIDENTIFIER],
+                    [AGGREGATECLASS],
+                    [AGGREGATETYPE]
+                )
+                VALUES
+                (
+                    @aggregateIdentifier,
+                    @aggregateClass,
+                    @aggregateType
+                )";
+
+            var type = aggregate.GetType();
+            await connection.ExecuteAsync(insertStatement, new
+            {
+                aggregateIdentifier = aggregate.AggregateIdentifier,
+                aggregateClass = type.FullName,
+                aggregateType = type.Name.Replace("Aggregate", string.Empty),
+            }, transaction);
         }
     }
 }

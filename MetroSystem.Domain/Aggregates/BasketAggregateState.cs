@@ -1,5 +1,5 @@
 ﻿using MetroSystem.Domain.Events;
-using MetroSystem.Domain.Model;
+using MetroSystem.Domain.Models;
 using MetroSystem.Domain.Events;
 using System;
 using System.Collections.Generic;

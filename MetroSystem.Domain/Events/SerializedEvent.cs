@@ -11,5 +11,16 @@ namespace MetroSystem.Domain.Events
         public Guid AggregateIdentifier { get ; set; }
         public long AggregateVersion { get ; set ; }
         public long EventTime { get; set ; }
+        public string EventClass { get; set; }
+
+        public string EventType { get; set; }
+
+        public string EventData { get; set; }
+
+        public SerializedEvent()
+        {
+            EventTime = DateTime.Now.ToBinary();
+        }
+
     }
 }

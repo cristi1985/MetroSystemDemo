@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MassTransit.Mediator;
-using Shared.Models;
+using MetroSystem.Domain.Models;
 
 namespace MetroSystem.API.Base
 {

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetroSystem.Domain.Models;
 
 namespace MetroSystem.Domain.Consumers
 {
@@ -27,9 +28,26 @@ namespace MetroSystem.Domain.Consumers
             _basketAggregateFactory = basketAggregateFactory;
         }
 
-        public Task Consume(ConsumeContext<CreateBasketCommand> context)
+        public async Task Consume(ConsumeContext<CreateBasketCommand> context)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var aggregate = _basketAggregateFactory.CreateAggregate();
+                BasketCreatedEvent @event = aggregate.CreateBasket(context.Message.CustomerName);
+                await Save(aggregate, @event);
+
+                await context.RespondAsync<IBasketCreationResult>(new BasketCreationResult
+                {
+                    IsSuccessful = true,
+                    AggregateIdentifier = aggregate.AggregateIdentifier
+                });
+
+
+            }
+            catch(Exception ex)
+            {
+                await context.RespondAsync(CommandResult.Error(ex.Message));
+            }
         }
     }
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.Models
+namespace MetroSystem.Domain.Models
 {
     public class CommandResult : ICommandResult
     {
@@ -19,5 +19,10 @@ namespace Shared.Models
         public IList<ValidationFailure> Errors { get; set; }
 
         public object Payload { get; set; }
+
+        public static CommandResult Error(string message)
+        {
+            return new CommandResult() { IsSuccessful = false, Message = message };
+        }
     }
 }

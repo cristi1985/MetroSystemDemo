@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MetroSystem.Domain.Model
+namespace MetroSystem.Domain.Models
 {
     public class BasketRecord
     {
