@@ -9,7 +9,6 @@ namespace MetroSystem.Domain.Events
 {
     public class BasketCreatedEvent : Event
     {
-        public Guid RecordIdentifier { get; set; }
         public Guid BasketId { get; set; }
         public string BuyerName { get; set; }
 

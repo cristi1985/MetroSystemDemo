@@ -16,7 +16,7 @@ namespace MetroSystem.Domain.Aggregates
             new BasketRecord()
             {
                 CreatedDate = DateTime.Now,
-                BasketId = @event.RecordIdentifier
+                BasketId = @event.BasketId
             };
         }
     }

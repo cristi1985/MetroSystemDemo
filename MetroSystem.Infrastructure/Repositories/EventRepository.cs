@@ -62,24 +62,31 @@ namespace MetroSystem.Infrastructure.Repositories
         /// </summary>
         private async Task<TAggregate> Rehydrate(Guid id, int version = -1)
         {
-            // Get all the events for the aggregate.
-            var events = await _store.Get<TEvent>(id, version);
-
-            // Disallow empty event streams.
-            if (!events.Any())
-                throw new AggregateNotFoundException(typeof(TAggregate), id);
-
-            // Create and load the aggregate.
-            // var factory = _serviceProvider.GetService<IAggregateFactory<TAggregate, TState>>();
-
-            var aggregate = await _store.GetAggregate(id);
-            if (aggregate == null)
+            //Check that id of basket exists first
+            bool basketExists = await _store.Exists(id);
+            if (basketExists)
             {
-                throw new Exception($"Unable to find aggregate of type {typeof(TAggregate)}");
-            }
-            aggregate.Rehydrate(events);
+                // Get all the events for the aggregate.
+                var events = await _store.Get<TEvent>(id, version);
 
-            return aggregate;
+                // Disallow empty event streams.
+                if (!events.Any())
+                    throw new AggregateNotFoundException(typeof(TAggregate), id);
+
+                // Create and load the aggregate.
+                // var factory = _serviceProvider.GetService<IAggregateFactory<TAggregate, TState>>();
+
+                var aggregate = await _store.GetAggregate(events.Select(x => x.AggregateIdentifier).FirstOrDefault());
+                if (aggregate == null)
+                {
+                    throw new Exception($"Unable to find aggregate of type {typeof(TAggregate)}");
+                }
+                aggregate.Rehydrate(events);
+
+                return aggregate;
+            }
+            return null;
+           
         }
     }
 }

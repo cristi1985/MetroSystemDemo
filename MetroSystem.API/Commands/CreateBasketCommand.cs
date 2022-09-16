@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MetroSystem.Domain.Commands
+namespace MetroSystem.API.Commands
 {
     public class CreateBasketCommand
     {

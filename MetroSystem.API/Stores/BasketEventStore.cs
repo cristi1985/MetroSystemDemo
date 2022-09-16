@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 using System.Threading.Tasks;
 using MetroSystem.Domain.Models;
+using MetroSystem.Infrastructure.Dto;
 
 namespace MetroSystem.API.Stores
 { 
@@ -34,15 +35,15 @@ namespace MetroSystem.API.Stores
             throw new NotImplementedException();
         }
 
-        public async Task<bool> Exists(Guid aggregateIdentifier)
+        public async Task<bool> Exists(Guid BasketIdentifier)
         {
             using var connection = _context.CreateConnection();
             connection.Open();
 
             var query =
-                "SELECT 1 FROM Basket WHERE BasketId = @aggregateIdentifier";
-            connection.BeginTransaction();
-            return (await connection.QueryAsync(query, new { aggregateIdentifier = aggregateIdentifier })).Any();
+                "SELECT 1 FROM Basket WHERE BasketId = @basketIdentifier";
+           
+            return (await connection.QueryAsync(query, new { basketIdentifier = BasketIdentifier })).Any();
         }
 
         public Task<bool> Exists(Guid aggregateIdentifier, int version)
@@ -50,14 +51,23 @@ namespace MetroSystem.API.Stores
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<T>> Get<T>(Guid aggregateIdentifier, int version) where T : IEvent
+        public async Task<IEnumerable<T>> Get<T>(Guid aggregateIdentifier, int version) where T : IEvent
         {
-            throw new NotImplementedException();
+            using var connection = _context.CreateConnection();
+            connection.Open();
+            var basketQuery = "SELECT * FROM Basket where BasketId = @basketId";
+            var basketQueryResult = await connection.QueryFirstAsync<BasketGridDto>(basketQuery, new { basketId = aggregateIdentifier });
+            var query = "SELECT * FROM BasketEvents  where AggregateIdentifier = @aggregateId";
+            return (await connection.QueryAsync<T>(query, new { aggregateId = basketQueryResult.AggregateIdentifier }));
         }
 
-        public Task<BasketAggregate> GetAggregate(Guid aggregateIdentifier)
+        public async Task<BasketAggregate> GetAggregate(Guid aggregateIdentifier)
         {
-            throw new NotImplementedException();
+            using var connection = _context.CreateConnection();
+            connection.Open();
+            var query = "SELECT * FROM BasketAggregates where AggregateIdentifier = @aggregateIdentifier";
+            return( await connection.QueryFirstAsync<BasketAggregate>(query, new { aggregateIdentifier = aggregateIdentifier }));
+         
         }
 
         public Task<IEnumerable<Guid>> GetExpired(long at)

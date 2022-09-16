@@ -22,6 +22,7 @@ namespace MetroSystem.Domain.Models
             var createBasketStatement = @"INSERT INTO [dbo].[Basket]
             (
                [BasketId],
+               [AggregateIdentifier],
                [BuyerName],
                [PaysVat],
                [Closed],
@@ -29,6 +30,7 @@ namespace MetroSystem.Domain.Models
             )
             VALUES (
                 @BasketId,
+                @AggregateIdentifier,
                 @BuyerName,
                 1,
                 0,
@@ -40,6 +42,7 @@ namespace MetroSystem.Domain.Models
                 await connection.ExecuteAsync(createBasketStatement, new
                 {
                     @event.BasketId,
+                    @event.AggregateIdentifier,
                     @event.BuyerName
                 }, transaction);
                 transaction.Commit();
@@ -47,6 +50,7 @@ namespace MetroSystem.Domain.Models
                 return new BasketGridDto()
                 {
                     BasketId = @event.BasketId,
+                    AggregateIdentifier = @event.AggregateIdentifier,
                     BuyerName = @event.BuyerName
                 };
             }

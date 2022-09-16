@@ -1,7 +1,6 @@
 ﻿using MassTransit;
 using MassTransit.Mediator;
 using MetroSystem.Domain.Aggregates;
-using MetroSystem.Domain.Commands;
 using MetroSystem.API.Consumers;
 using MetroSystem.Domain.Events;
 using System;
@@ -10,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MetroSystem.Domain.Models;
+using MetroSystem.API.Commands;
 
 namespace MetroSystem.API.Consumers
 {

@@ -3,7 +3,8 @@
     public class BasketGridDto
     {
 
-        public Guid BasketId { get; set; }  
+        public Guid BasketId { get; set; }
+        public Guid AggregateIdentifier { get; set; }
         public string BuyerName { get; set; }
         public string Products { get; set; }
         public decimal TotalNet { get; set; }

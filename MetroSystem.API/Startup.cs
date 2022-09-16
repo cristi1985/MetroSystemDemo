@@ -1,8 +1,8 @@
 ﻿using MassTransit;
+using MetroSystem.API.Commands;
 using MetroSystem.API.Consumers;
 using MetroSystem.API.Stores;
 using MetroSystem.Domain.Aggregates;
-using MetroSystem.Domain.Commands;
 using MetroSystem.Domain.Events;
 using MetroSystem.Domain.Models;
 using MetroSystem.Infrastructure.Context;
@@ -40,6 +40,8 @@ namespace MetroSystem.API
                 x.AddConsumer<CreateBasketCommandConsumer>();
                 x.AddRequestClient<BasketCreatedEvent>();
                 x.AddConsumer<CreateBasketEventConsumer>();
+                x.AddRequestClient<UpdateBaskeCommand>();
+                x.AddConsumer<UpdateBasketCommandConsumer>();
             });
 
            

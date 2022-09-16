@@ -9,6 +9,10 @@ namespace MetroSystem.Domain.Aggregates
 {
     public class BasketAggregate : AggregateRoot<BasketAggregateState>
     {
+        public Guid AggregateIdentifier { get; set; }
+        public string AggregateClass { get; set; }
+        public string AggregateType { get; set; }
+
         public override BasketAggregateState CreateState() => new();
         
         public BasketCreatedEvent CreateBasket(string customerName)
