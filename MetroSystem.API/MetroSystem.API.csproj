@@ -18,4 +18,8 @@
     <ProjectReference Include="..\MetroSystem.Infrastructure\MetroSystem.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Queries\Repositories\" />
+  </ItemGroup>
+
 </Project>

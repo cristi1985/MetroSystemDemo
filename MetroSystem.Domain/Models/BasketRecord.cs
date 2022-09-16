@@ -8,7 +8,7 @@ namespace MetroSystem.Domain.Models
 {
     public class BasketRecord
     {
-        public Guid RecordIdentifier { get; internal set; }
+        public Guid BasketId { get; internal set; }
         public DateTime CreatedDate { get; internal set; }
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }

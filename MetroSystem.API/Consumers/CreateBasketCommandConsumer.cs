@@ -1,6 +1,5 @@
 ﻿using MassTransit;
 using MassTransit.Mediator;
-using MetroSystem.API.Queries.Repositories;
 using MetroSystem.Domain.Aggregates;
 using MetroSystem.Domain.Commands;
 using MetroSystem.API.Consumers;
@@ -12,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MetroSystem.Domain.Models;
 
-namespace MetroSystem.Domain.Consumers
+namespace MetroSystem.API.Consumers
 {
     public class CreateBasketCommandConsumer  : BaseCommandLocalConsumerShared<BasketAggregate, BasketAggregateState>, IConsumer<CreateBasketCommand>
     {
@@ -39,7 +38,7 @@ namespace MetroSystem.Domain.Consumers
                 await context.RespondAsync<IBasketCreationResult>(new BasketCreationResult
                 {
                     IsSuccessful = true,
-                    AggregateIdentifier = aggregate.AggregateIdentifier
+                    BasketId = @event.BasketId
                 });
 
 

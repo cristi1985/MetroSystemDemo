@@ -8,6 +8,6 @@ namespace MetroSystem.Domain.Models
 {
     public interface IBasketCreationResult : ICommandResult
     {
-        Guid AggregateIdentifier { get; set; }
+        Guid BasketId { get; set; }
     }
 }

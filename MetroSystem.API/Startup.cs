@@ -1,10 +1,10 @@
 ﻿using MassTransit;
-using MetroSystem.API.Queries.Repositories;
+using MetroSystem.API.Consumers;
 using MetroSystem.API.Stores;
 using MetroSystem.Domain.Aggregates;
 using MetroSystem.Domain.Commands;
-using MetroSystem.Domain.Consumers;
 using MetroSystem.Domain.Events;
+using MetroSystem.Domain.Models;
 using MetroSystem.Infrastructure.Context;
 using MetroSystem.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -38,7 +38,11 @@ namespace MetroSystem.API
                 
                 x.AddRequestClient<CreateBasketCommand>();
                 x.AddConsumer<CreateBasketCommandConsumer>();
+                x.AddRequestClient<BasketCreatedEvent>();
+                x.AddConsumer<CreateBasketEventConsumer>();
             });
+
+           
             services.AddSingleton<DapperContext>();
             
             services.AddSingleton<IEventRepository<BasketAggregate, BasketAggregateState>, BasketEventRepository>();

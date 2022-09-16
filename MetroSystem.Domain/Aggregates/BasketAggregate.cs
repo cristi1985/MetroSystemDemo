@@ -16,7 +16,7 @@ namespace MetroSystem.Domain.Aggregates
             var @event = new BasketCreatedEvent
             {
                 BasketId = Guid.NewGuid(),
-                CustomerName = customerName
+                BuyerName = customerName
             };
             Apply(@event);
             return @event;

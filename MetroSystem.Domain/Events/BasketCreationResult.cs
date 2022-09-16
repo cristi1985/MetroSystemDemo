@@ -9,6 +9,6 @@ namespace MetroSystem.Domain.Events
 {
     public class BasketCreationResult : CommandResult, IBasketCreationResult
     {
-        public Guid AggregateIdentifier { get ; set ; }
+        public Guid BasketId { get ; set ; }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using MetroSystem.Domain.Events;
-using MetroSystem.Infrastructure.Queries.Repositories;
 
-namespace MetroSystem.API.Queries.Repositories
+using MetroSystem.Infrastructure.Dto;
+
+namespace MetroSystem.Domain.Models
 {
     public interface IBasketRepository
     {

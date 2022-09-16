@@ -11,7 +11,7 @@ namespace MetroSystem.Domain.Events
     {
         public Guid RecordIdentifier { get; set; }
         public Guid BasketId { get; set; }
-        public string CustomerName { get; set; }
+        public string BuyerName { get; set; }
 
     }
 }
