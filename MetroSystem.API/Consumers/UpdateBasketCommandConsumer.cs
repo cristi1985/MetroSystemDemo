@@ -26,9 +26,14 @@ namespace MetroSystem.API.Consumers
             try
             {
                 var aggregate = await GetAggregate(context.Message.BasketId);
-                var newaggregate = _basketaggregatefactory.CreateAggregate(aggregate.AggregateIdentifier);
-                var @event = newaggregate.UpdateBasket(aggregate.AggregateIdentifier, context.Message.BasketId, context.Message.Item, context.Message.Price);
+                var @event = aggregate.UpdateBasket(aggregate.AggregateIdentifier, context.Message.BasketId, context.Message.Item, context.Message.Price);
                 await Save(aggregate, @event);
+
+                await context.RespondAsync<IBasketUpdatedResult>(new BasketUpdatedResult
+                {
+                    IsSuccessful = true,
+                    BasketId = context.Message.BasketId
+                });
             }
             catch (Exception ex)
             {
