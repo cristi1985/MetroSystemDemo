@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MetroSystem.Infrastructure.Repositories
 {
-    public class BasketEventRepository<TAggregate, TEvent, TState> : IEventRepository<TAggregate, TState>
+    public class EventRepository<TAggregate, TEvent, TState> : IEventRepository<TAggregate, TState>
         where TEvent:IEvent
         where TAggregate : AggregateRoot<TState>
         where TState : AggregateState
@@ -16,7 +16,7 @@ namespace MetroSystem.Infrastructure.Repositories
         private readonly IEventStore<TAggregate, TState> _store;
         private readonly IServiceProvider _serviceProvider;
 
-        public BasketEventRepository(IEventStore<TAggregate, TState> store, IServiceProvider serviceProvider)
+        public EventRepository(IEventStore<TAggregate, TState> store, IServiceProvider serviceProvider)
         {
             _store = store ?? throw new ArgumentNullException(nameof(store));
             _serviceProvider = serviceProvider;

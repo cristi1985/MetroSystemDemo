@@ -6,7 +6,17 @@ using System.Threading.Tasks;
 
 namespace MetroSystem.Domain.Events
 {
-    internal class BasketUpdateEvent
+    public class BasketUpdateEvent : Event
     {
+        public Guid AggregateIdentifier { get; set; }
+        public long AggregateVersion { get; set; }
+        public Guid BasketId { get; set; }
+        public string BuyerName { get; set; }
+        public long EventTime { get; set; }
+        public string EventType { get; set; }
+        public string Item { get; set; }
+        public decimal Price { get; set; }
+     
+        
     }
 }

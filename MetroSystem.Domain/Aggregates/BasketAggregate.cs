@@ -9,7 +9,6 @@ namespace MetroSystem.Domain.Aggregates
 {
     public class BasketAggregate : AggregateRoot<BasketAggregateState>
     {
-        public Guid AggregateIdentifier { get; set; }
         public string AggregateClass { get; set; }
         public string AggregateType { get; set; }
 
@@ -21,6 +20,20 @@ namespace MetroSystem.Domain.Aggregates
             {
                 BasketId = Guid.NewGuid(),
                 BuyerName = customerName
+            };
+            Apply(@event);
+            return @event;
+        }
+
+        public BasketUpdateEvent UpdateBasket (Guid aggregateIdentifier, Guid basketId, string itemName, decimal price )
+        {
+            var @event = new BasketUpdateEvent
+            {
+                AggregateIdentifier = aggregateIdentifier,
+                AggregateVersion = 1,
+                BasketId= basketId,
+                Item = itemName,
+                Price = price
             };
             Apply(@event);
             return @event;

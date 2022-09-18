@@ -42,6 +42,8 @@ namespace MetroSystem.API
                 x.AddConsumer<CreateBasketEventConsumer>();
                 x.AddRequestClient<UpdateBaskeCommand>();
                 x.AddConsumer<UpdateBasketCommandConsumer>();
+                x.AddConsumer<UpdateBasketEventConsumer>();
+                x.AddRequestClient<BasketUpdateEvent>();
             });
 
            

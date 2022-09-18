@@ -12,5 +12,10 @@ namespace MetroSystem.Domain.Aggregates
         {
             return new() { AggregateIdentifier = Guid.NewGuid() };
         }
+
+        public BasketAggregate CreateAggregate(Guid aggregateIdentifier)
+        {
+            return new() { AggregateIdentifier = aggregateIdentifier }; 
+        }
     }
 }

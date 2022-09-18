@@ -26,8 +26,9 @@ namespace MetroSystem.API.Consumers
             try
             {
                 var aggregate = await GetAggregate(context.Message.BasketId);
-                Console.WriteLine("xxxx");
-                //await GetAggregate(context.)
+                var newaggregate = _basketaggregatefactory.CreateAggregate(aggregate.AggregateIdentifier);
+                var @event = newaggregate.UpdateBasket(aggregate.AggregateIdentifier, context.Message.BasketId, context.Message.Item, context.Message.Price);
+                await Save(aggregate, @event);
             }
             catch (Exception ex)
             {

@@ -10,9 +10,6 @@ namespace MetroSystem.Domain.Models
     {
         public Guid BasketId { get; internal set; }
         public DateTime CreatedDate { get; internal set; }
-        public string ProductName { get; set; }
-        public string ProductDescription { get; set; }
-        public int ProductNumber { get; set; }
 
 
     }

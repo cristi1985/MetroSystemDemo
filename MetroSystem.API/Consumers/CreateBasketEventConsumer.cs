@@ -9,14 +9,10 @@ namespace MetroSystem.API.Consumers
     public class CreateBasketEventConsumer:IConsumer<BasketCreatedEvent>
     {
         private readonly IBasketRepository _basketRepository;
-        //private readonly IBus _bus;
-       
 
         public CreateBasketEventConsumer(IBasketRepository basketRepository)   
         {
             _basketRepository = basketRepository;
-            //_bus = bus;
-         
         }
 
         public async Task Consume(ConsumeContext<BasketCreatedEvent> context)

@@ -125,7 +125,6 @@ namespace MetroSystem.API.Stores
             catch (Exception ex)
             {
                 transaction.Rollback();
-                Console.WriteLine(ex);
                 throw new Exception(ex.Message, ex.InnerException);
             }
         }

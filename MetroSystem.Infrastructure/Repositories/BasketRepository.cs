@@ -57,10 +57,53 @@ namespace MetroSystem.Domain.Models
             catch(Exception ex)
             {
                 transaction.Rollback();
-                Console.WriteLine(ex.Message);
                 throw new Exception(ex.Message, ex.InnerException);
             }
          
+        }
+
+        public async Task<BasketGridDto> UpdateBasket (BasketUpdateEvent @event)
+        {
+            decimal PricePlusVat = Decimal.Add(Decimal.Multiply(@event.Price, (decimal)0.19), @event.Price);
+            using var connection = _context.CreateConnection();
+            connection.Open();
+            using var transaction = connection.BeginTransaction();
+            var updateBasketStatement = @"Update [dbo].[Basket] SET
+            [Products] = @Products,
+            [TotalNet] = @TotalNet,
+            [TotalGross] = @TotalGross,
+            [PaysVat] = @Paysvat,
+            [Closed] = @Closed,
+            [Payed] = @Payed
+            WHERE BasketId = @BasketId";
+
+            try
+            {
+                await connection.ExecuteAsync(updateBasketStatement, new
+                {
+                    Products = @event.Item,
+                    TotalNet = PricePlusVat ,
+                    TotalGross = @event.Price,
+                    PaysVat = true,
+                    Closed = false,
+                    Payed = false,
+                    BasketId = @event.BasketId
+
+                }, transaction);
+                transaction.Commit();
+
+                return new BasketGridDto()
+                {
+                    BasketId = @event.BasketId,
+                    AggregateIdentifier = @event.AggregateIdentifier,
+                    BuyerName = @event.BuyerName
+                };
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw new Exception(ex.Message, ex.InnerException);
+            }
         }
 
         public Guid BasketId { get; set; }

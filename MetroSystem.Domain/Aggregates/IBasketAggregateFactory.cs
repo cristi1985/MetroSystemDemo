@@ -9,5 +9,6 @@ namespace MetroSystem.Domain.Aggregates
 {
     public interface IBasketAggregateFactory: IAggregateFactory<BasketAggregate, BasketAggregateState>
     {
+        BasketAggregate CreateAggregate(Guid aggregateidentifier);
     }
 }

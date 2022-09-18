@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MetroSystem.Infrastructure.Repositories
 {
-    public class BasketEventRepository : BasketEventRepository<BasketAggregate, SerializedEvent, BasketAggregateState>, IBasketEventRepository
+    public class BasketEventRepository : EventRepository<BasketAggregate, SerializedEvent, BasketAggregateState>, IBasketEventRepository
     {
         public BasketEventRepository(IBasketEventStore store, IServiceProvider serviceProvider) : base(store, serviceProvider)
         {
